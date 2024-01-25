@@ -1,0 +1,9 @@
+---
+import {getExploreRecipes} from "../api/drupal";
+import ExploreRecipeCard from "./ExploreRecipeCard.astro";
+const data = await getExploreRecipes();
+---
+
+{ data?.length ? data.map((recipe) => {
+    return <ExploreRecipeCard recipe={recipe} key={recipe.id}/>
+    }) : null}

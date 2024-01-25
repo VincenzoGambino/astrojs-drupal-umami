@@ -1,0 +1,110 @@
+---
+import {
+    baseUrl,
+    getArticles, getFeaturedArticles,
+} from "../../api/drupal";
+import Layout from "../../layouts/Layout.astro";
+import {Image} from "astro:assets";
+import {type DrupalNode, type DrupalTaxonomyTerm} from "../../types";
+import ArticleCard from "../../components/ArticleCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+
+
+
+export async function getStaticPaths() {
+    const articles = await getArticles();
+    return articles.map((article: DrupalNode) => {
+        return {
+            params: {
+                article: article.path.alias.split('/')[2]
+            }
+            ,
+            props: {
+                article: article,
+                articles: articles
+            }
+        }
+    });
+}
+
+const {article} = Astro.props;
+const relatedArticles: DrupalNode[] = await getFeaturedArticles(article);
+
+---
+
+
+<Layout title={article.title}>
+
+  <div class="m-auto max-w-[1200px]">
+    <Breadcrumbs items={[
+      {
+          title: "Articles",
+          url: "/articles",
+      },
+      {
+          title: article.title,
+          url: Astro.url.pathname
+      },
+  ]}/>
+    <article class="grid gap-8 pb-12 lg:grid-cols-10">
+      <div
+        class="p-6 bg-white border md:p-10 border-border lg:col-span-7 text-text">
+        <h1 class="font-serif text-4xl">{article.title}</h1>
+        <div class="flex items-center my-4 space-x-2 text-sm">
+            {article.uid?.display_name ? (
+              <span>
+                by <a class="underline transition-colors text-link hover:text-primary hover:bg-border" href="#">{article.uid.display_name}</a>
+              </span>
+            ) : null}
+          <svg
+            class="w-[6px] h-[6px] opacity-60 text-link"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="12" fill="currentColor"/>
+          </svg>
+          <span class="text-gray-500">{new Date(article.created).toLocaleDateString('en-EN', {
+              day: "numeric",
+              month: "long",
+              year: "numeric"
+          })}</span>
+        </div>
+          {article.field_tags?.length ? (
+            <div class="flex mb-6 space-x-2">
+              <span class="font-semibold">Tags: </span>
+                {article.field_tags.map((tag: DrupalTaxonomyTerm) => (
+                  <a href={tag.path.alias}
+                     class="underline transition-colors text-link hover:text-primary hover:bg-border">
+                      {tag.name}
+                  </a>
+                ))}
+            </div>
+          ) : null}
+          {article.field_media_image && (
+            <figure class="mb-10">
+              <Image
+                src={baseUrl + article.field_media_image.field_media_image.uri.url}
+                alt={
+                    article.field_media_image.field_media_image.resourceIdObjMeta.alt
+                }
+                width={785}
+                height={525}
+              />
+            </figure>
+          )}
+          {article.body && (
+            <div set:html={article.body.value}
+                 class="prose prose-p:text-text max-w-none prose-headings:font-serif prose-headings:text-text">
+            </div>
+          )}
+      </div>
+          <div class="flex flex-col space-y-6 lg:col-span-3">
+            <h2 class="font-serif text-3xl text-text">
+              More featured articles
+            </h2>
+              {relatedArticles.map((article) => (
+                <ArticleCard key={article.id} article={article}/>
+              ))}
+          </div>
+    </article>
+  </div>
+</Layout>

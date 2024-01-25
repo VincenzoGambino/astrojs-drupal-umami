@@ -1,0 +1,17 @@
+---
+import { getHomepageBanner, baseUrl } from "../api/drupal";
+
+const data = await getHomepageBanner();
+const url = baseUrl + data[0].field_media_image.field_media_image.uri.url;
+---
+
+<div class="relative lg:max-h-[550px] overflow-hidden">
+  <div class="media__content image__wrapper homepage-banner"><img src={url}/></div>
+  <div class="container inset-0 z-10 flex items-center lg:absolute">
+    <div class="top-0 flex flex-col items-start space-y-4 lg:max-w-[40%] text-text px-0 py-6 lg:px-6 lg:text-white lg:border border-text lg:bg-black/40">
+      <p class="font-serif text-[28px] leading-tight">{data[0].field_title}</p>
+      <p class="text-[19px] leading-snug">{data[0].field_summary}</p>
+      <a class="px-6 py-3 font-serif text-xl text-white transition-colors border-2 rounded-md bg-secondary hover:bg-white hover:text-black border-secondary" href={data[0].field_content_link.uri.replace("internal:", "")}>{data[0].field_content_link.title}</a>
+    </div>
+  </div>
+</div>

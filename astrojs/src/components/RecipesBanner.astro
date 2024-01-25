@@ -1,0 +1,31 @@
+---
+import { baseUrl, getRecipesBanner } from "../api/drupal";
+import  {Image} from "astro:assets";
+const data = await getRecipesBanner();
+const url = data[0].field_media_image.field_media_image.uri.url;
+---
+
+
+<div class="relative lg:max-h-[550px] overflow-hidden min-h-[43vw]">
+  <Image src={baseUrl + url}
+         alt={data[0].field_media_image.field_media_image.resourceIdObjMeta.alt}
+         width="1200"
+         height="514"
+         class="w-full h-full"
+  />
+  <div class="m-auto inset-0 z-10 flex items-center lg:absolute max-w-[1200px]">
+    <div class="top-0 flex flex-col items-start space-y-4 md:max-w-[41%] text-text p-7 lg:px-6 lg:text-white lg:border border-text lg:bg-black/40">
+      <p class="font-serif text-[1.777rem] leading-tight mb-2">
+          {data[0].field_title}
+      </p>
+        {data[0].field_summary && (
+          <p class="text-[1.188rem] leading-snug mb-5">{data[0].field_summary}</p>
+        )}
+        {data[0].field_content_link && (
+            <a href={data[0].field_content_link.uri.replace("internal:/en", "")} class="px-6 py-3 font-serif text-xl text-white text-[1.2rem] transition-colors border-2 rounded-md bg-secondary hover:bg-white hover:text-black border-secondary">
+                {data[0].field_content_link.title}
+            </a>
+        )}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+---
+import {baseUrl} from "../api/drupal";
+import {Image} from "astro:assets";
+interface Props {
+    title: string;
+    summary: {
+        value: string
+    };
+    path: {
+        alias: string,
+        pid: number,
+        langcode: string
+    };
+    image: {
+        field_media_image: {
+            uri: {
+                url: string
+            }
+        }
+    };
+}
+
+const {path, title, summary} = Astro.props;
+const {image} = Astro.props
+
+---
+
+<div class="card" style="width: 18rem;">
+  <Image src={baseUrl + image.field_media_image.uri.url} alt={title} width="768" height="190" class="card-img-top"/>
+    <div class="card-body">
+        <h5 class="card-title">{title}</h5>
+        <p class="card-text">{summary.value}</p>
+        <a href={path.alias} class="btn btn-primary">Read more...</a>
+    </div>
+</div>

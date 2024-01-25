@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply w-full mx-auto max-w-screen-2xl px-4 md:px-8;
+  }
+}
+
+.homepage-banner img {
+  width: 100%;
+}

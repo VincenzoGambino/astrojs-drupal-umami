@@ -1,0 +1,8 @@
+---
+const {title, details} = Astro.props
+---
+<div class="flex items-center justify-center space-x-2 lg:flex-col">
+    <slot />
+  <strong class="badge-title">{title}</strong>
+  <p class="text-center">{details}</p>
+</div>

@@ -1,0 +1,20 @@
+---
+
+import Layout from "../layouts/Layout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";---
+<Layout title="Page not found">
+  <div class="container max-w-[1200px]">
+  <Breadcrumbs items={[
+      {
+          title: 'Page not found',
+          url: Astro.url.pathname
+      },
+  ]}/>
+    <div class="mt-4 mb-12">
+    <h1 class="text-[2.369rem] text-center">Page not found</h1>
+    </div>
+    <div class="mt-4">
+    <p>The requested page could not be found. </p>
+    </div>
+  </div>
+</Layout>

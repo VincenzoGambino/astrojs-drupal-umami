@@ -1,0 +1,52 @@
+---
+import {
+    getCategories,
+    getRelatedCategories,
+    getRelatedTags,
+    getTags
+} from "../api/drupal";
+import Layout from "../layouts/Layout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import RecipeCardTeaser from "../components/RecipeCardTeaser.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import {type DrupalNode} from "../types";
+
+export async function getStaticPaths() {
+    const tags: DrupalNode[] = await getTags();
+    const categories: DrupalNode[] = await getCategories();
+    let nodes: DrupalNode[] = [...tags, ...categories];
+
+
+    const pathsPromises: Promise<{ params: { slug: string }; props: { title: string, related: DrupalNode[] | null } }>[] = nodes.map(async (tag) => {
+        const slug = tag.path.alias;
+        const related: DrupalNode[] | null =
+            slug.includes('tags') ? await getRelatedTags(slug) : await getRelatedCategories(slug);
+
+        return {
+            params: { slug },
+            props: { title: tag.name, related },
+        };
+    });
+
+    return Promise.all(pathsPromises);
+}
+const {title, related}: any = Astro.props;
+const {slug}: any = Astro.params;
+
+---
+<Layout title={title}>
+  <div class="m-auto max-w-[1200px]" aria-label={title}>
+    <Breadcrumbs items={[
+        {
+            title: title,
+            url: slug.split('/')[1],
+        },
+    ]}/>
+    <h1 class="text-[2.369rem] mt-4 mb-12 text-center">{title}</h1>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {related && related.map((item: DrupalNode) => {
+            return item.type === 'node--recipe' ? (<RecipeCardTeaser recipe={item}/>) : (<ArticleCard article={item}/>)
+        })}
+    </div>
+  </div>
+</Layout>

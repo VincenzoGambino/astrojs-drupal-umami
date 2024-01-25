@@ -1,0 +1,51 @@
+---
+import {baseUrl, getUmamiPromoBlock} from "../api/drupal";
+import {Image} from "astro:assets";
+import {type DrupalBlock} from "../types";
+const blocks: DrupalBlock[] =  await getUmamiPromoBlock()
+---
+<section class="py-8 text-white bg-gray-darker">
+  <div class="container max-w-[1200px] justify-between lg:grid lg:grid-cols-[6fr_1.5fr_2.5fr]">
+      {blocks.map(block => (
+        <div class="grid text-center lg:text-left lg:grid-cols-[266px_1fr] lg:h-[200px] overflow-hidden gap-6">
+            {block.field_media_image && (
+              <Image
+                src={baseUrl + block.field_media_image.field_media_image.uri.url}
+                width={266}
+                height={236}
+                alt=""
+              />
+            )}
+          <div class="items-start flex-1 space-y-4 text-center lg:pt-10 lg:flex lg:flex-col lg:text-left">
+            <h2 class="font-serif text-2xl">
+                {block.field_title}
+            </h2>
+              {block.field_summary && (
+                <p class="text-sm leading-normal">
+                    {block.field_summary}
+                </p>
+              )}
+              {block.field_content_link && (
+                <a
+                  href={block.field_content_link.uri.replace(
+                      "internal:",
+                      ""
+                  )}
+                >
+                  <a class="text-sm underline transition-colors hover:bg-black">
+                      {block.field_content_link.title}
+                  </a>
+                </a>
+              )}
+          </div>
+        </div>
+      ))}
+    <div class="pt-10 text-center lg:text-left lg:col-start-3">
+    <h2 class="mb-4 font-serif text-2xl">
+      Tell us what you think
+    </h2>
+    <a href="/contact">Contact</a>
+  </div>
+  </div>
+
+</section>

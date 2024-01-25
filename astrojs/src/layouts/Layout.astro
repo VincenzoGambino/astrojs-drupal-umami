@@ -1,0 +1,37 @@
+---
+import RecipesCollection from "../components/RecipesCollection.astro";
+import Header from "../components/Header.astro";
+import "../styles/global.css"
+import FooterDisclaimer from "../components/FooterDisclaimer.astro";
+import FooterPromo from "../components/FooterPromo.astro";
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Umami Food Magazine</title>
+	</head>
+	<body class="text-[1rem]">
+        <div class="flex flex-col min-h-screen">
+            <Header />
+          <main class="flex-1 pb-10 bg-body">
+            <slot />
+          </main>
+          <footer>
+            <RecipesCollection />
+            <FooterPromo />
+            <FooterDisclaimer />
+          </footer>
+        </div>
+	</body>
+</html>

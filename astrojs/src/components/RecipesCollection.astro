@@ -1,0 +1,15 @@
+---
+import {getRecipesCollection} from "../api/drupal";
+const tags = await getRecipesCollection();
+---
+
+<section class="py-10 text-white bg-gray">
+  <div class="container">
+    <h2 class="font-serif text-3xl text-center">
+        Recipe Collections
+    </h2>
+    <div class="grid max-w-4xl mx-auto mt-4 text-sm text-center md:text-left md:grid-cols-4 gap-y-3 gap-x-4">
+        {tags.map((tag) => <a class="font-semibold hover:underline" href={tag.path.alias}>{tag.name}</a>)}
+    </div>
+  </div>
+</section>

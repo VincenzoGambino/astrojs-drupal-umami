@@ -1,0 +1,53 @@
+---
+const menu = [
+    {
+        name: 'Home',
+        href: '/'
+    },
+    {
+        name: 'Articles',
+        href: '/articles'
+    },
+    {
+        name: 'Recipes',
+        href: '/recipes'
+    }
+
+];
+---
+<button
+  id='toggle-menu' class="absolute transition-all border beorder-transparent md:hidden right-4 top-8 hover:border-link">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+    <path d="M3 12h18M3 6h18M3 18h18"></path>
+  </svg>
+</button>
+<div id='menu-nav' class="max-h-0 transition-all overflow-hidden md:max-h-screen">
+  <nav>
+    <ul
+      class="flex flex-col items-center justify-center w-full pt-8 space-y-6 md:pt-0 md:space-y-0 md:flex-row md:space-x-14">
+        {menu.map((item) =>
+          <li>
+              {
+                  item.href == Astro.url.pathname ?
+                    <a href={item.href}
+                       class="text-xl border-b-[3px] flex font-serif text-black border-b-primary">
+                        {item.name}
+                    </a>
+                      :
+                    <a href={item.href}
+                       class="text-xl border-b-[3px] flex border-b-transparent font-serif transition-colors hover:text-primary hover:border-b-primary">
+                        {item.name}
+                    </a>
+              }
+          </li>
+        )}
+    </ul>
+  </nav>
+</div>
+<script is:inline>
+  const menuIcon = document.querySelector('#toggle-menu');
+  menuIcon.onclick = () => {
+      document.querySelector('#menu-nav').classList.toggle('max-h-screen');
+  }
+</script>

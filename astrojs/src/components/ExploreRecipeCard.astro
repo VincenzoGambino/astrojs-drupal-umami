@@ -1,0 +1,8 @@
+---
+const {recipe} = Astro.props;
+---
+
+<div>
+  <h1>{recipe.title}</h1>
+  <a href={recipe.path.alias.replace("internal:", "")}>View Recipe</a>
+</div>

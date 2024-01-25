@@ -1,0 +1,13 @@
+---
+import {getUmamiDisclaimer} from "../api/drupal";
+const disclaimer = await getUmamiDisclaimer()
+---
+
+<div class="container text-center flex flex-col space-y-4 lg:text-left lg:grid-cols-[4fr_3.5fr_2.5fr] lg:space-y-0 lg:grid justify-between py-8 text-sm text-text">
+  <div set:html={disclaimer[0].field_disclaimer.processed}>
+
+  </div>
+  <div class="col-start-3" set:html={disclaimer[0].field_copyright.processed}>
+
+  </div>
+</div>

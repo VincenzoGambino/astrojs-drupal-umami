@@ -1,0 +1,31 @@
+---
+import {baseUrl} from "../api/drupal";
+import {Image} from "astro:assets";
+const {recipe} = Astro.props;
+---
+
+  <article class="relative flex flex-col p-4 space-y-4 overflow-hidden bg-white border border-border group">
+    <h2 class="flex-1 font-serif text-[1.424rem]">{recipe.title}</h2>
+    <p class="text-sm capitalize text-gray-darker">
+        <span class="font-semibold">Difficulty: </span>
+        {recipe.field_difficulty}
+    </p>
+    <div class="media__content image__wrapper">
+      <Image src={baseUrl + recipe.field_media_image.field_media_image.uri.url}
+             alt={recipe.title} width="768" height="190"/>
+    </div>
+      <a href={recipe.path.alias} class="inline-flex items-center uppercase hover:underline text-link" >VIEW RECIPE
+        <svg
+        class="w-5 h-5 ml-1"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+      </a>
+
+  </article>

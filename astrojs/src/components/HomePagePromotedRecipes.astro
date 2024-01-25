@@ -1,0 +1,16 @@
+---
+import {getPromotedRecipes} from "../api/drupal";
+import RecipeCardPromoted from "./RecipeCardPromoted.astro";
+const data = await getPromotedRecipes(4, "ASC");
+---
+<div>
+  <p class="text-[1.77rem] text-center mt-10">Explore recipes across every type of
+    occasion, ingredient, and skill level</p>
+  <div
+    class="container max-w-[1200px] grid gap-8 py-8 sm:grid-cols-2 ">
+
+      {data?.length ? data.map((recipe) => {
+          return <RecipeCardPromoted recipe={recipe} key={recipe.id}/>
+      }) : null}
+  </div>
+</div>

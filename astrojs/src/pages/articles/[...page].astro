@@ -1,0 +1,35 @@
+---
+import {getArticles} from "../../api/drupal";
+import Layout from "../../layouts/Layout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+
+export async function getStaticPaths({paginate}: any) {
+    const articles = await getArticles();
+
+    return paginate(articles, {
+        pageSize: 0,
+
+    })
+}
+
+const {page}: any = Astro.props;
+---
+<Layout
+  title="Articles"
+>
+  <div class="container max-w-[1200px]">
+    <Breadcrumbs items={[
+        {
+            title: "Articles",
+            url: "/articles",
+        }
+    ]}/>
+    <h1 class="text-center text-[2.369rem] mb-5">Articles</h1>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {page.data.map((article: any) => (
+          <ArticleCard key={article.id} article={article}/>
+        ))}
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,38 @@
+---
+import {getRecipes} from "../../api/drupal";
+import Layout from "../../layouts/Layout.astro";
+import RecipeCardTeaser from "../../components/RecipeCardTeaser.astro";
+import RecipesBanner from "../../components/RecipesBanner.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import {type DrupalNode} from "../../types";
+import {type GetStaticPaths} from "astro";
+
+
+
+export const getStaticPaths =  (async ({paginate}) => {
+    const recipes = await getRecipes();
+
+    return paginate(recipes, {
+        pageSize: 0,
+
+    })
+}) satisfies GetStaticPaths;
+
+const {page} = Astro.props;
+---
+
+<Layout title="Recipes">
+  <RecipesBanner />
+    <div class="m-auto max-w-[1200px]" aria-label="Recipes">
+      <Breadcrumbs items={[
+          {
+              title: "Recipes",
+              url: "/recipes",
+          },
+      ]}/>
+        <h1 class="text-[2.369rem] mt-4 mb-12 text-center">Recipes</h1>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {page.data.map((recipe: DrupalNode) => (<RecipeCardTeaser recipe={recipe}/>))}
+        </div>
+    </div>
+</Layout>

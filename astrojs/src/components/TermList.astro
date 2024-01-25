@@ -1,0 +1,7 @@
+---
+import {type DrupalTaxonomyTerm} from "../types";
+const { terms } = Astro.props;
+---
+<ul>
+    {terms.map((term: DrupalTaxonomyTerm) => <li><a href={term.path.alias}>{term.name}</a></li>)}
+</ul>

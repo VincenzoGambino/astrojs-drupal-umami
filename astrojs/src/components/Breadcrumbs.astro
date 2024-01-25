@@ -1,0 +1,40 @@
+---
+const {items} = Astro.props
+---
+<nav class="py-4 text-text"}>
+  <ol class="flex">
+      <li class="flex items-center leading-none truncate">
+        <a href="/" class="underline active:text-black capitalize text-[#05826a]">home</a>
+            <svg
+              class="w-3 h-3 mx-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m13 17 5-5-5-5M6 17l5-5-5-5" />
+            </svg>
+      </li>
+      {items.map((item: any, index: any) => (
+        <li class="flex items-center truncate">
+            {item.url == Astro.url.pathname ? <a href={item.url} class="capitalize text-black">{item.title}</a> : <a href={item.url} class="underline active:text-black capitalize text-link">{item.title}</a> }
+
+            {index !== items.length - 1 && (
+              <svg
+                class="w-3 h-3 mx-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m13 17 5-5-5-5M6 17l5-5-5-5" />
+              </svg>
+            )}
+        </li>
+      ))}
+  </ol>
+</nav>
