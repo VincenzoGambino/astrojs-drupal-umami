@@ -25,6 +25,7 @@
         "drupal/jsonapi_resources": "^1.0@beta",
         "drupal/jsonapi_views": "^1.1",
         "drupal/restui": "^1.21",
+        "drupal/webform_rest": "^4.1",
         "drush/drush": "^12.4"
     },
     "conflict": {

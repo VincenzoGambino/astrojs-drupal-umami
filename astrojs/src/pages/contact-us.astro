@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactUsForm from "../components/ContactUsForm";
+---
+<Layout title="Contact us">
+  <div class="container max-w-[1200px]">
+    <Breadcrumbs items={[
+        {
+            title: 'Contact us',
+            url: Astro.url.pathname
+        },
+    ]}/>
+    <div class="mt-4 mb-12">
+      <h1 class="text-[2.369rem] text-center">Contact us</h1>
+    </div>
+    <div class="mt-4">
+      <ContactUsForm client:load/>
+    </div>
+  </div>
+</Layout>
